@@ -46,7 +46,7 @@ if st.session_state.get('authentication_status'):
 
     # Input pag
     if st.session_state.page == 'input_page':
-        st.header("Encuentra Personas Similares")
+        st.header("Conectemos para crecer")
 
         # Add welcome video
         video_col, _ = st.columns([2, 1])  # 1/3 del ancho de la pantalla
