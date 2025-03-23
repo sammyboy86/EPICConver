@@ -56,7 +56,7 @@ if st.session_state.get('authentication_status'):
         st.markdown("### Describe lo que te apasiona del emprendimiento y tu experiencia emprendiendo:")
         user_input = st.text_area("Escribe tu descripción aquí", height=200)
 
-        if st.button('Encontrar Personas Similares'):
+        if st.button('Conectar experiencia'):
             if user_input:
                 # Load the OpenAI API key from config.yaml
                 api_key = st.secrets["my_api"]["key"]
@@ -105,7 +105,7 @@ if st.session_state.get('authentication_status'):
 
     # Result page
     elif st.session_state.page == 'result_page':
-        st.header("Personas Similares Encontradas")
+        st.header("Vínculos latentes")
 
         for key in ['show_jayce_input', 'show_caitlyn_input', 'show_vi_input']:
             if key not in st.session_state:
