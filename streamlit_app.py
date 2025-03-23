@@ -51,7 +51,6 @@ if st.session_state.get('authentication_status'):
     if st.session_state.page == 'input_page':
         st.header("Conectemos para crecer")
 
-        # Add welcome video
         # Crear dos columnas: video a la izquierda, flecha a la derecha
         video_col, flecha_col = st.columns([3, 1])  # Ajusta proporción si lo ves necesario
 
@@ -60,13 +59,13 @@ if st.session_state.get('authentication_status'):
 
         with flecha_col:
             flecha_placeholder = st.empty()  # Reservar espacio para la flecha
-        # Simula que la flechita aparece luego de 15 segundos (ajústalo a la duración del video)
-        flecha_placeholder = st.empty()
-        time.sleep(60)
 
-        # Mostrar flecha con un poco de estilo y scroll
+        # Esperar duración estimada del video antes de mostrar flecha (ajusta a la duración real)
+        time.sleep(15)
+
+        # Mostrar flecha animada en la columna derecha
         flecha_html = """
-        <div style='text-align: center; margin-top: 20px;'>
+        <div style='text-align: center; margin-top: 50px;'>
             <a href='#descripcion' style='text-decoration: none; color: inherit;'>
                 <div style='font-size: 2em; animation: bounce 1s infinite;'>⬇️</div>
             </a>
@@ -82,10 +81,9 @@ if st.session_state.get('authentication_status'):
 
         flecha_placeholder.markdown(flecha_html, unsafe_allow_html=True)
 
-        # Agrega el ancla abajo
+        # Punto de anclaje para que al hacer clic se baje a esta parte
         st.markdown("<div id='descripcion'></div>", unsafe_allow_html=True)
 
-        st.markdown("### Describe lo que te apasiona del emprendimiento y tu experiencia emprendiendo:", unsafe_allow_html=True)
         user_input = st.text_area("Escribe tu descripción aquí", height=200)
 
         if st.button('Conectar experiencia'):
