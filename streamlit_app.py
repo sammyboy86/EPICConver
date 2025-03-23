@@ -52,10 +52,14 @@ if st.session_state.get('authentication_status'):
         st.header("Conectemos para crecer")
 
         # Add welcome video
-        video_col, _ = st.columns([2, 1])  # 1/3 del ancho de la pantalla
+        # Crear dos columnas: video a la izquierda, flecha a la derecha
+        video_col, flecha_col = st.columns([3, 1])  # Ajusta proporción si lo ves necesario
+
         with video_col:
             st.video("media/bienvenida.mp4")
 
+        with flecha_col:
+            flecha_placeholder = st.empty()  # Reservar espacio para la flecha
         # Simula que la flechita aparece luego de 15 segundos (ajústalo a la duración del video)
         flecha_placeholder = st.empty()
         time.sleep(60)
