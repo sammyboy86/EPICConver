@@ -1,0 +1,20 @@
+cookie:
+  expiry_days: 30
+  key: Nombre
+  name: credencialesConve
+credentials:
+  usernames:
+    viktor:
+      email: jsmith@gmail.com
+      failed_login_attempts: 0 # Will be managed automatically
+      first_name: Viktor
+      logged_in: False # Will be managed automatically
+      password: $2b$12$rcdD7ASUk3nIYOTUafaxQOMJGqHn/RfGd5YHal7Jiwndjv..f83jO # Will be hashed automatically
+    jinx:
+      email: rbriggs@gmail.com
+      failed_login_attempts: 0 # Will be managed automatically
+      first_name: Jinx
+      logged_in: False # Will be managed automatically
+      password: $2b$12$x/Z4F9Dfiw89C8J9KlMgq.BLAfDczTL.vDBEs5n30MmCHBaCRjokK # Will be hashed automatically
+descripcion_mamalona:
+  Soy un emprendedor social que trabaja en baja california con tortugas y estoy desarrollando una aplicación para vigilar pesca ilegal. Me encanta el tenis y jugar futbol, apasionado de los deportes. Tengo 5 años de experiencia trabajando en emprendimiento social.
