@@ -66,50 +66,50 @@ if st.session_state.get('authentication_status'):
             if user_input:
                 with st.spinner("Buscando personas afines..."):
                     time.sleep(3)
-                # Load the OpenAI API key from config.yaml
-                    api_key = st.secrets["my_api"]["key"]
+            # Load the OpenAI API key from config.yaml
+                api_key = st.secrets["my_api"]["key"]
 
-                    # Initialize the OpenAI client with the API key
-                    client = OpenAI(api_key=api_key)
+                # Initialize the OpenAI client with the API key
+                client = OpenAI(api_key=api_key)
 
-                    # Define the prompt for OpenAI
-                    prompt = f"""
-                    [Descripción escrita por el usuario]
-                    {user_input}
+                # Define the prompt for OpenAI
+                prompt = f"""
+                [Descripción escrita por el usuario]
+                {user_input}
 
-                    Crea 3 descripciones de personas (Jayce, Caitlyn, Vi) que sean similares a la descripción anterior, que sean en primera persona; enfócate en vocabulario orientado al emprendimiento, pero haz que cada persona sea única. IMPORTANTE: Separa cada descripción con una línea en blanco (no agregues símbolos a las separaciones) y menciona su participación en el EPIC Lab del ITAM (club de emprendimiento).
-                    """
+                Crea 3 descripciones de personas (Jayce, Caitlyn, Vi) que sean similares a la descripción anterior, que sean en primera persona; enfócate en vocabulario orientado al emprendimiento, pero haz que cada persona sea única. IMPORTANTE: Separa cada descripción con una línea en blanco (no agregues símbolos a las separaciones) y menciona su participación en el EPIC Lab del ITAM (club de emprendimiento).
+                """
 
-                # Send the prompt to ChatGPT
-                try:
-                    response = client.chat.completions.create(
-                        model="gpt-3.5-turbo",
-                        messages=[{"role": "user", "content": prompt}],
-                        max_tokens=800,  # Puedes subir esto si lo necesitas
-                        temperature=0.8  # Da un poco más de variedad
-                    )
+            # Send the prompt to ChatGPT
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=800,  # Puedes subir esto si lo necesitas
+                    temperature=0.8  # Da un poco más de variedad
+                )
 
-                    # Validar que haya una respuesta adecuada
-                    if response and response.choices and response.choices[0].message and response.choices[0].message.content:
-                        personas_text = response.choices[0].message.content.strip()
-                        personas = personas_text.split("\n\n")
-                        
-                        # Validar que haya exactamente 3 descripciones
-                        if len(personas) == 3:
-                            st.session_state.personas = personas_text
-                            st.session_state.page = 'result_page'
-                            st.rerun()
-                        else:
-                            st.error(personas_text)
-                            st.error("La respuesta no contenía 3 descripciones claras. Por favor, intenta nuevamente o mejora la descripción.")
+                # Validar que haya una respuesta adecuada
+                if response and response.choices and response.choices[0].message and response.choices[0].message.content:
+                    personas_text = response.choices[0].message.content.strip()
+                    personas = personas_text.split("\n\n")
+                    
+                    # Validar que haya exactamente 3 descripciones
+                    if len(personas) == 3:
+                        st.session_state.personas = personas_text
+                        st.session_state.page = 'result_page'
+                        st.rerun()
                     else:
-                        st.error("No se pudo obtener una respuesta válida de la API. Intenta de nuevo más tarde.")
-
-                except Exception as e:
-                    st.error(f"Ocurrió un error al llamar a OpenAI: {e}")
-
+                        st.error(personas_text)
+                        st.error("La respuesta no contenía 3 descripciones claras. Por favor, intenta nuevamente o mejora la descripción.")
                 else:
-                    st.error("Por favor, escribe una descripción.")
+                    st.error("No se pudo obtener una respuesta válida de la API. Intenta de nuevo más tarde.")
+
+            except Exception as e:
+                st.error(f"Ocurrió un error al llamar a OpenAI: {e}")
+
+            else:
+                st.error("Por favor, escribe una descripción.")
 
     # Result page
     elif st.session_state.page == 'result_page':
