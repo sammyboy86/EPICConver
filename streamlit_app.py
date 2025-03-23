@@ -3,6 +3,9 @@ import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
 from openai import OpenAI
+import time
+import base64
+
 
 # Load configuration
 with open('config.yaml') as file:
@@ -53,7 +56,32 @@ if st.session_state.get('authentication_status'):
         with video_col:
             st.video("media/bienvenida.mp4")
 
-        st.markdown("### Describe lo que te apasiona del emprendimiento y tu experiencia emprendiendo:")
+        # Simula que la flechita aparece luego de 15 segundos (ajústalo a la duración del video)
+        flecha_placeholder = st.empty()
+        time.sleep(60)
+
+        # Mostrar flecha con un poco de estilo y scroll
+        flecha_html = """
+        <div style='text-align: center; margin-top: 20px;'>
+            <a href='#descripcion' style='text-decoration: none; color: inherit;'>
+                <div style='font-size: 2em; animation: bounce 1s infinite;'>⬇️</div>
+            </a>
+        </div>
+
+        <style>
+        @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(10px); }
+        }
+        </style>
+        """
+
+        flecha_placeholder.markdown(flecha_html, unsafe_allow_html=True)
+
+        # Agrega el ancla abajo
+        st.markdown("<div id='descripcion'></div>", unsafe_allow_html=True)
+
+        st.markdown("### Describe lo que te apasiona del emprendimiento y tu experiencia emprendiendo:", unsafe_allow_html=True)
         user_input = st.text_area("Escribe tu descripción aquí", height=200)
 
         if st.button('Conectar experiencia'):
