@@ -64,8 +64,7 @@ if st.session_state.get('authentication_status'):
 
         if st.button('Conectar experiencia'):
             if user_input:
-                with st.spinner("Buscando personas afines..."):
-                    time.sleep(3)
+                
             # Load the OpenAI API key from config.yaml
                 api_key = st.secrets["my_api"]["key"]
 
@@ -81,35 +80,39 @@ if st.session_state.get('authentication_status'):
                 """
 
             # Send the prompt to ChatGPT
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[{"role": "user", "content": prompt}],
-                    max_tokens=800,  # Puedes subir esto si lo necesitas
-                    temperature=0.8  # Da un poco más de variedad
-                )
-
-                # Validar que haya una respuesta adecuada
-                if response and response.choices and response.choices[0].message and response.choices[0].message.content:
-                    personas_text = response.choices[0].message.content.strip()
-                    personas = personas_text.split("\n\n")
+            with st.spinner("Buscando personas afines..."):
                     
-                    # Validar que haya exactamente 3 descripciones
-                    if len(personas) == 3:
-                        st.session_state.personas = personas_text
-                        st.session_state.page = 'result_page'
-                        st.rerun()
+                try:
+
+                    response = client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[{"role": "user", "content": prompt}],
+                        max_tokens=800,  # Puedes subir esto si lo necesitas
+                        temperature=0.8  # Da un poco más de variedad
+                    )
+
+                    # Validar que haya una respuesta adecuada
+                    if response and response.choices and response.choices[0].message and response.choices[0].message.content:
+                        personas_text = response.choices[0].message.content.strip()
+                        personas = personas_text.split("\n\n")
+                        
+                        # Validar que haya exactamente 3 descripciones
+                        if len(personas) == 3:
+                            st.session_state.personas = personas_text
+                            time.sleep(2)
+                            st.session_state.page = 'result_page'
+                            st.rerun()
+                        else:
+                            st.error(personas_text)
+                            st.error("La respuesta no contenía 3 descripciones claras. Por favor, intenta nuevamente o mejora la descripción.")
                     else:
-                        st.error(personas_text)
-                        st.error("La respuesta no contenía 3 descripciones claras. Por favor, intenta nuevamente o mejora la descripción.")
+                        st.error("No se pudo obtener una respuesta válida de la API. Intenta de nuevo más tarde.")
+
+                except Exception as e:
+                    st.error(f"Ocurrió un error al llamar a OpenAI: {e}")
+
                 else:
-                    st.error("No se pudo obtener una respuesta válida de la API. Intenta de nuevo más tarde.")
-
-            except Exception as e:
-                st.error(f"Ocurrió un error al llamar a OpenAI: {e}")
-
-            else:
-                st.error("Por favor, escribe una descripción.")
+                    st.error("Por favor, escribe una descripción.")
 
     # Result page
     elif st.session_state.page == 'result_page':
